@@ -1,5 +1,5 @@
 import { NODE_ENV, port } from "../config/config.service.js";
-import { connectDB } from "./DB/connection.db.js";
+import { connectDB } from "./DB/index.js";
 import { authRouter } from "./modules/index.js";
 import express from "express";
 
