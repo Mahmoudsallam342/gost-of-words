@@ -8,6 +8,10 @@ import { create, findOne, UserModel } from "../../DB/index.js";
 import bcrypt, { hash } from "bcrypt";
 import { SALT_ROUND } from "../../../config/config.service.js";
 import { compareHash, generateHash } from "../../common/utils/index.js";
+import {
+  decrypt,
+  encrypt,
+} from "../../common/utils/security/encription.security.js";
 export const signup = async (inputs) => {
   const { username, email, password, phone } = inputs;
   const checkUserExist = await findOne({ model: UserModel, filter: { email } });
@@ -22,7 +26,7 @@ export const signup = async (inputs) => {
           username,
           email,
           password: await generateHash(password),
-          phone,
+          phone: await encrypt(phone),
           provider: ProviderEnum.System,
         },
       ],
@@ -44,5 +48,6 @@ export const login = async (inputs) => {
   if (!match) {
     return NotFoundException({ message: "invalid email or password" });
   }
+  user.phone = await decrypt(user.phone);
   return user;
 };

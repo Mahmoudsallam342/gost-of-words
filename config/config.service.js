@@ -19,6 +19,7 @@ export const DB_PASSWORD = process.env.DB_PASSWORD ?? "";
 export const DB_USER = process.env.DB_USER ?? "root";
 export const DB_NAME = process.env.DB_NAME ?? "test";
 export const DB_URL = process.env.DB_URL;
+export const ENC_BYTE = process.env.ENC_BYTE;
 
 export const SALT_ROUND = parseInt(process.env.SALT_ROUND ?? "10");
 console.log({ SALT_ROUND });
