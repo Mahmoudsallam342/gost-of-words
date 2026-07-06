@@ -12,26 +12,25 @@ import {
   decrypt,
   encrypt,
 } from "../../common/utils/security/encription.security.js";
+import jwt from "jsonwebtoken";
 export const signup = async (inputs) => {
   const { username, email, password, phone } = inputs;
   const checkUserExist = await findOne({ model: UserModel, filter: { email } });
   if (checkUserExist) {
     return ConflictException({ message: "Email exist" });
   }
-  const user = await create([
-    {
-      model: UserModel,
-      data: [
-        {
-          username,
-          email,
-          password: await generateHash(password),
-          phone: await encrypt(phone),
-          provider: ProviderEnum.System,
-        },
-      ],
-    },
-  ]);
+  const user = await create({
+    model: UserModel,
+    data: [
+      {
+        username,
+        email,
+        password: await generateHash(password),
+        phone: await encrypt(phone),
+        provider: ProviderEnum.System,
+      },
+    ],
+  });
   return user;
 };
 export const login = async (inputs) => {
@@ -48,6 +47,7 @@ export const login = async (inputs) => {
   if (!match) {
     return NotFoundException({ message: "invalid email or password" });
   }
-  user.phone = await decrypt(user.phone);
-  return user;
+  const access_token = jwt.sign({ sub: user._id }, "token_secret_key");
+  // user.phone = await decrypt(user.phone);
+  return access_token;
 };
