@@ -7,7 +7,7 @@ router.post("/signup", async (req, res, next) => {
   return successResponse({ res, status: 201, data: { account } });
 });
 router.post("/login", async (req, res, next) => {
-  const account = await login(req.body);
+  const account = await login(req.body, `${req.protocol}://${req.host}`);
   return successResponse({ res, status: 200, data: { account } });
 });
 

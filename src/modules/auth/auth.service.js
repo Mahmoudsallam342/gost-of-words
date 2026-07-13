@@ -1,17 +1,31 @@
 import { model } from "mongoose";
-import { ProviderEnum } from "../../common/enum/index.js";
 import {
-  ConflictException,
-  NotFoundException,
-} from "../../common/utils/response/index.js";
+  ProviderEnum,
+  roleEnum,
+  TokenTypeEnum,
+} from "../../common/enum/index.js";
 import { create, findOne, UserModel } from "../../DB/index.js";
 import bcrypt, { hash } from "bcrypt";
-import { SALT_ROUND } from "../../../config/config.service.js";
-import { compareHash, generateHash } from "../../common/utils/index.js";
 import {
+  ACCESS_EXPIRES_IN,
+  ADMIN_REFRESH_TOKEN_SECRET_KEY,
+  ADMIN_TOKEN_SECRET_KEY,
+  REFRESH_EXPIRES_IN,
+  SALT_ROUND,
+  USER_REFRESH_TOKEN_SECRET_KEY,
+  USER_TOKEN_SECRET_KEY,
+} from "../../../config/config.service.js";
+import {
+  compareHash,
+  generateHash,
+  generateToken,
   decrypt,
   encrypt,
-} from "../../common/utils/security/encription.security.js";
+  ConflictException,
+  NotFoundException,
+  createLoginCredential,
+} from "../../common/utils/index.js";
+
 import jwt from "jsonwebtoken";
 export const signup = async (inputs) => {
   const { username, email, password, phone } = inputs;
@@ -33,7 +47,7 @@ export const signup = async (inputs) => {
   });
   return user;
 };
-export const login = async (inputs) => {
+export const login = async (inputs, issuer) => {
   const { email, password } = inputs;
   const user = await findOne({
     model: UserModel,
@@ -47,7 +61,10 @@ export const login = async (inputs) => {
   if (!match) {
     return NotFoundException({ message: "invalid email or password" });
   }
-  const access_token = jwt.sign({ sub: user._id }, "token_secret_key");
   // user.phone = await decrypt(user.phone);
-  return access_token;
+
+  //! creating tokens
+  console.log(user.role);
+
+  return await createLoginCredential(user, issuer);
 };

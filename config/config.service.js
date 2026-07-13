@@ -20,7 +20,16 @@ export const DB_USER = process.env.DB_USER ?? "root";
 export const DB_NAME = process.env.DB_NAME ?? "test";
 export const DB_URL = process.env.DB_URL;
 export const ENC_BYTE = process.env.ENC_BYTE;
-export const TOKEN_SECRET_KEY = process.env.TOKEN_SECRET_KEY;
+export const ADMIN_TOKEN_SECRET_KEY = process.env.ADMIN_TOKEN_SECRET_KEY;
+export const ADMIN_REFRESH_TOKEN_SECRET_KEY =
+  process.env.ADMIN_REFRESH_TOKEN_SECRET_KEY;
+export const USER_TOKEN_SECRET_KEY = process.env.USER_TOKEN_SECRET_KEY;
+export const USER_REFRESH_TOKEN_SECRET_KEY =
+  process.env.USER_REFRESH_TOKEN_SECRET_KEY;
+export const ACCESS_EXPIRES_IN = process.env.ACCESS_EXPIRES_IN;
+export const REFRESH_EXPIRES_IN = process.env.REFRESH_EXPIRES_IN;
+// export const ACCESS_EXPIRES_IN = parseInt(process.env.ACCESS_EXPIRES_IN);
+// export const REFRESH_EXPIRES_IN = parseInt(process.env.REFRESH_EXPIRES_IN);
 
 export const SALT_ROUND = parseInt(process.env.SALT_ROUND ?? "10");
 console.log({ SALT_ROUND });
