@@ -1,14 +1,19 @@
 import { Router } from "express";
 import { getProfile, rotateToken } from "./user.service.js";
 import { successResponse } from "../../common/utils/index.js";
-import { authentication } from "../../middleware/index.js";
-import { TokenTypeEnum } from "../../common/enum/security.enum.js";
+import { authentication, authorization } from "../../middleware/index.js";
+import { roleEnum, TokenTypeEnum } from "../../common/enum/index.js";
 
 const router = Router();
-router.get("/", authentication(), async (req, res, next) => {
-  const account = await getProfile(req.user);
-  return successResponse({ res, data: { account } });
-});
+router.get(
+  "/",
+
+  authorization([roleEnum.User]),
+  async (req, res, next) => {
+    const account = await getProfile(req.user);
+    return successResponse({ res, data: { account } });
+  },
+);
 router.get(
   "/rotate",
   authentication(TokenTypeEnum.refresh),
