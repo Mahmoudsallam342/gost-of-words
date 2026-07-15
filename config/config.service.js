@@ -28,8 +28,7 @@ export const USER_REFRESH_TOKEN_SECRET_KEY =
   process.env.USER_REFRESH_TOKEN_SECRET_KEY;
 export const ACCESS_EXPIRES_IN = process.env.ACCESS_EXPIRES_IN;
 export const REFRESH_EXPIRES_IN = process.env.REFRESH_EXPIRES_IN;
-// export const ACCESS_EXPIRES_IN = parseInt(process.env.ACCESS_EXPIRES_IN);
-// export const REFRESH_EXPIRES_IN = parseInt(process.env.REFRESH_EXPIRES_IN);
+export const CLIENT_IDS = process.env.CLIENT_IDS?.split(",") || [];
 
 export const SALT_ROUND = parseInt(process.env.SALT_ROUND ?? "10");
 console.log({ SALT_ROUND });

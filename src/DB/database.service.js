@@ -66,10 +66,22 @@ export const paginate = async ({
   };
 };
 
-export const create = async ({ data, options, model }) => {
-  return (await model.create(data, options)) || [];
+export const create = async ({
+  model,
+  data,
+  options = { validateBeforeSave: true },
+} = {}) => {
+  return await model.create(data, options);
 };
+// export const createOne = async ({
+//   model,
+//   data,
+//   options = { validateBeforeSave: true },
+// } = {}) => {
+//   const [doc] = (await create({ model, data, options })) || [];
 
+//   return doc;
+// };
 export const insertMany = async ({ data, model }) => {
   return await model.insertMany(data);
 };
