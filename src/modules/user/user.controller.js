@@ -7,7 +7,7 @@ import { roleEnum, TokenTypeEnum } from "../../common/enum/index.js";
 const router = Router();
 router.get(
   "/",
-
+  authentication(),
   authorization([roleEnum.User]),
   async (req, res, next) => {
     const account = await getProfile(req.user);
