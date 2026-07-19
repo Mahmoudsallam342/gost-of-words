@@ -12,7 +12,7 @@ export const login = {
 };
 
 export const signup = {
-  body: login
+  body: login.body
     .append()
     .keys({
       username: generalValidationFields.username.required(),
