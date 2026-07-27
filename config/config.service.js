@@ -31,4 +31,3 @@ export const REFRESH_EXPIRES_IN = process.env.REFRESH_EXPIRES_IN;
 export const CLIENT_IDS = process.env.CLIENT_IDS?.split(",") || [];
 
 export const SALT_ROUND = parseInt(process.env.SALT_ROUND ?? "10");
-console.log({ SALT_ROUND });

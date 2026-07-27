@@ -20,7 +20,9 @@ export const globalErrorHandling = (error, req, res, next) => {
   const mood = NODE_ENV == "production";
   const defaultErrorMessage = "something went wrong Server error";
   const displayErrorMessage = error.message || defaultErrorMessage;
-
+  if (error instanceof multer.MulterError) {
+    status = 400;
+  }
   return res.status(status).json({
     status,
     errorMessage: mood

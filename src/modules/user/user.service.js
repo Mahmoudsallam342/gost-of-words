@@ -4,9 +4,17 @@ import {
   decodeToken,
 } from "../../common/utils/index.js";
 
+export const profileCoverImage = async (file, user) => {
+  user.coverProfilePictures = file.finalPath;
+  await user.save();
+  return user;
+};
+export const profileImage = async (files, user) => {
+  user.profilePicture = files.map((file) => file.finalPath);
+  await user.save();
+  return user;
+};
 export const getProfile = async (user) => {
-  // const verifiedData = await decodeToken({ token: authorization });
-
   return user;
 };
 export const rotateToken = async (user, issuer) => {
