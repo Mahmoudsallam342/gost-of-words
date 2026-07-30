@@ -6,3 +6,7 @@ export const TokenTypeEnum = {
   access: "access",
   refresh: "refresh",
 };
+export const LogoutEnum = {
+  all: 0,
+  one: 1,
+};

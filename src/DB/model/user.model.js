@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema(
 
     profilePicture: String,
     coverProfilePictures: [String],
-    changeCredentialsTime: Date,
+    changeCredentialsTime: Date, //time of signout of all devices
   },
   {
     collection: "Route_users",

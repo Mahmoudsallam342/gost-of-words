@@ -73,15 +73,15 @@ export const create = async ({
 } = {}) => {
   return await model.create(data, options);
 };
-// export const createOne = async ({
-//   model,
-//   data,
-//   options = { validateBeforeSave: true },
-// } = {}) => {
-//   const [doc] = (await create({ model, data, options })) || [];
+export const createOne = async ({
+  model,
+  data,
+  options = { validateBeforeSave: true },
+} = {}) => {
+  const [doc] = (await create({ model, data, options })) || [];
 
-//   return doc;
-// };
+  return doc;
+};
 export const insertMany = async ({ data, model }) => {
   return await model.insertMany(data);
 };

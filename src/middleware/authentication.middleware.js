@@ -23,10 +23,12 @@ export const authentication = (tokenType = TokenTypeEnum.access) => {
 
         break;
       case "Bearer":
-        req.user = await decodeToken({
+        const { user, decoded } = await decodeToken({
           token: credential,
           tokenType,
         });
+        req.user = user;
+        req.decoded = decoded;
 
         break;
 

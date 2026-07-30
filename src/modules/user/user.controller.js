@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   getProfile,
+  logout,
   profileCoverImage,
   profileImage,
   rotateToken,
@@ -18,6 +19,10 @@ import {
 import { roleEnum, TokenTypeEnum } from "../../common/enum/index.js";
 import * as validators from "../../common/utils/multer/index.js";
 const router = Router();
+router.post("/logout", authentication(), async (req, res, next) => {
+  const status = await logout(req.body, req.user, req.decoded);
+  return successResponse({ res, status });
+});
 router.get(
   "/",
   authentication(),
@@ -27,15 +32,16 @@ router.get(
     return successResponse({ res, data: { account } });
   },
 );
-router.get(
+router.post(
   "/rotate",
   authentication(TokenTypeEnum.refresh),
   async (req, res, next) => {
-    const account = await rotateToken(
+    const credentials = await rotateToken(
       req.user,
+      req.decoded,
       `${req.protocol}://${req.host}`,
     );
-    return successResponse({ res, data: { account } });
+    return successResponse({ res, status: 201, data: { ...credentials } });
   },
 );
 router.patch(
