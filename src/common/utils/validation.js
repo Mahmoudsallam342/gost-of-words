@@ -1,27 +1,31 @@
 import joi from "joi";
+import { Types } from "mongoose";
 export const generalValidationFields = {
-  email: joi.string().email({
-    minDomainSegments: 2,
-    maxDomainSegments: 3,
-    tlds: { allow: ["com", "net"] },
-  }),
-  password: joi
-    .string()
-    .pattern(new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,16}$/)),
-
   username: joi
     .string()
-    .pattern(new RegExp(/^[A-Z]{1}[a-z]{1,24}\s[A-Z]{1}[a-z]{1,24}$/))
-    .required()
-    .messages({
-      "any.required": "username is required",
-      "string.empty": "username cannot be empty",
-    }),
-  phone: joi
-    .string()
-    .pattern(new RegExp(/^(00201|\+201|01)(0|1|2|5)\d{8}$/))
-    .required(),
-  confirmPassword: function (path = "password") {
-    return joi.string().valid(joi.ref(path));
+    .pattern(new RegExp(/^[A-Z]{1}[a-z]{1,24}\s[A-Z]{1}[a-z]{1,24}$/)),
+  phone: joi.string().pattern(new RegExp(/^(02|2|\+2)?01[0-25]\d{8}$/)),
+  confirmPassword: (matchedPath) => {
+    return joi.string().valid(joi.ref(matchedPath));
   },
+  email: joi
+    .string()
+    .email({
+      minDomainSegments: 2,
+      maxDomainSegments: 3,
+      tlds: { allow: ["com", "net", "edu"] },
+    }),
+  password: joi
+    .string()
+    .pattern(
+      new RegExp(
+        /^(?=.*[a-z]){1,}(?=.*[A-Z]){1,}(?=.*\d){1,}(?=.*\W){1,}[\w\W\d].{8,25}$/,
+      ),
+    ),
+  id: joi.string().custom((value, helper) => {
+    console.log({ value, helper });
+    return Types.ObjectId.isValid(value)
+      ? true
+      : helper.message(`Invalid objectId`);
+  }),
 };

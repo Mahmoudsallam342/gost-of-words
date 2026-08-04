@@ -1,6 +1,6 @@
 import joi from "joi";
 import { generalValidationFields } from "../../common/utils/validation.js";
-import { fileFieldValidation } from "../../common/utils";
+import { fileFieldValidation } from "../../common/utils/index.js";
 
 export const shareProfile = {
   params: joi.object().keys({

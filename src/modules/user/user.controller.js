@@ -5,6 +5,7 @@ import {
   profileCoverImage,
   profileImage,
   rotateToken,
+  shareProfile,
 } from "./user.service.js";
 import {
   fileFieldValidation,
@@ -17,7 +18,8 @@ import {
   validation,
 } from "../../middleware/index.js";
 import { roleEnum, TokenTypeEnum } from "../../common/enum/index.js";
-import * as validators from "../../common/utils/multer/index.js";
+// import * as validators from "../../common/utils/multer/index.js";
+import * as validators from "./user.validation.js";
 const router = Router();
 router.post("/logout", authentication(), async (req, res, next) => {
   const status = await logout(req.body, req.user, req.decoded);
@@ -26,9 +28,18 @@ router.post("/logout", authentication(), async (req, res, next) => {
 router.get(
   "/",
   authentication(),
-  authorization([roleEnum.User]),
+  // authorization([roleEnum.User]),
   async (req, res, next) => {
-    const account = await getProfile(req.user);
+    const account = await getProfile(req.user, req.params.userId);
+    return successResponse({ res, data: { account } });
+  },
+);
+router.get(
+  "/:userId/share-profile",
+
+  validation(validators.shareProfile),
+  async (req, res, next) => {
+    const account = await shareProfile(req.params.userId);
     return successResponse({ res, data: { account } });
   },
 );

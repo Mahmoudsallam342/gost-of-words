@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import {
   ACCESS_EXPIRES_IN,
   REFRESH_EXPIRES_IN,
@@ -7,9 +8,10 @@ import {
   ConflictException,
   createLoginCredential,
   decodeToken,
+  decrypt,
 } from "../../common/utils/index.js";
-import { createOne, deleteMany } from "../../DB/database.service.js";
-import { tokenModel } from "../../DB/index.js";
+import { createOne, deleteMany, findOne } from "../../DB/database.service.js";
+import { tokenModel, UserModel } from "../../DB/index.js";
 
 export const logout = async ({ flag }, user, { jti, iat }) => {
   let status = 200;
@@ -48,6 +50,21 @@ export const profileImage = async (files, user) => {
 };
 export const getProfile = async (user) => {
   return user;
+};
+export const shareProfile = async (userId) => {
+  const checkID = Types.ObjectId.isValid(userId);
+  const profile = await findOne({
+    model: UserModel,
+    filter: {
+      _id: userId,
+    },
+    select: "firstName lastName username email phone picture",
+  });
+  if (profile.phone) {
+    profile.phone = await decrypt(profile.phone);
+  }
+
+  return profile;
 };
 export const rotateToken = async (user, { jti, iat }, issuer) => {
   if ((iat + ACCESS_EXPIRES_IN) * 1000 >= Date.now() + 30000) {

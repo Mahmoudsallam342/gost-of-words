@@ -13,7 +13,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from "../response/error.response.js";
-import { findOne, UserModel } from "../../../DB/index.js";
+import { findOne, tokenModel, UserModel } from "../../../DB/index.js";
 import { randomUUID } from "node:crypto";
 export const generateToken = async ({
   payload = {},
@@ -96,7 +96,7 @@ export const decodeToken = async ({
   tokenType = TokenTypeEnum.access,
 } = {}) => {
   const decoded = jwt.decode(token);
-  console.log({ decoded });
+  // console.log({ decoded });
 
   if (!decoded?.aud?.length) {
     throw BadRequestException({
@@ -123,7 +123,7 @@ export const decodeToken = async ({
   const { accessSignature, refreshSignature } =
     await getTokenSignature(signatureLevel);
 
-  console.log({ accessSignature, refreshSignature });
+  // console.log({ accessSignature, refreshSignature });
 
   const verifiedData = await verifyToken({
     token,
@@ -131,7 +131,7 @@ export const decodeToken = async ({
       tokenType === TokenTypeEnum.refresh ? refreshSignature : accessSignature,
   });
 
-  console.log({ verifiedData });
+  // console.log({ verifiedData });
 
   const user = await findOne({
     model: UserModel,
