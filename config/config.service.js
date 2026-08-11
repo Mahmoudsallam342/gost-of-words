@@ -29,5 +29,6 @@ export const USER_REFRESH_TOKEN_SECRET_KEY =
 export const ACCESS_EXPIRES_IN = process.env.ACCESS_EXPIRES_IN;
 export const REFRESH_EXPIRES_IN = process.env.REFRESH_EXPIRES_IN;
 export const CLIENT_IDS = process.env.CLIENT_IDS?.split(",") || [];
+export const REDIS_URI = process.env.REDIS_URI;
 
 export const SALT_ROUND = parseInt(process.env.SALT_ROUND ?? "10");
