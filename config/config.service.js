@@ -30,5 +30,9 @@ export const ACCESS_EXPIRES_IN = process.env.ACCESS_EXPIRES_IN;
 export const REFRESH_EXPIRES_IN = process.env.REFRESH_EXPIRES_IN;
 export const CLIENT_IDS = process.env.CLIENT_IDS?.split(",") || [];
 export const REDIS_URI = process.env.REDIS_URI;
+export const EMAIL_APP = process.env.EMAIL_APP;
+export const EMAIL_APP_PASSWOED = process.env.EMAIL_APP_PASSWOED;
+export const APPLICATION_NAME = process.env.APPLICATION_NAME;
+export const ORIGINS = process.env.ORIGINS?.split(",") || [];
 
 export const SALT_ROUND = parseInt(process.env.SALT_ROUND ?? "10");
